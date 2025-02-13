@@ -64,4 +64,4 @@ elif menu == "View Listings":
 
 # Footer
 st.markdown("---")
-st.markdown("<p style='text-align: center;'>Made with ❤️ by Aarav and Deepak Koul [The HDFC School, Pune]</p>", unsafe_allow_html=True)
+st.markdown("<p style='text-align: center;'>Designed with ❤️ by Aarav and Deepak Koul [The HDFC School, Pune] </br></br>reuse, reduce and recycle ♻️ </p>", unsafe_allow_html=True)
