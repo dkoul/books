@@ -1,13 +1,18 @@
 import streamlit as st
 import pandas as pd
 import gspread
-from oauth2client.service_account import ServiceAccountCredentials
+from google.oauth2 import service_account
 
 # Google Sheets Authentication Setup
-scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-creds = ServiceAccountCredentials.from_json_keyfile_name("your_google_credentials.json", scope)
-client = gspread.authorize(creds)
-sheet = client.open("BookGiveaway").sheet1
+def connect_to_gsheet():
+    credentials = service_account.Credentials.from_service_account_info(
+        st.secrets["gcp_service_account"],
+        scopes=["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
+    )
+    client = gspread.authorize(credentials)
+    return client.open("BookGiveaway").sheet1
+
+sheet = connect_to_gsheet()
 
 def add_giveaway(name, number, grade):
     sheet.append_row([name, number, grade, "Unclaimed"])
@@ -20,7 +25,7 @@ def claim_book(index):
     sheet.update_cell(index + 2, 4, "Claimed")
 
 # Streamlit UI
-st.title("Used Bookset Giveaway Platform")
+st.title("Book Giveaway Platform")
 
 menu = st.sidebar.radio("Menu", ["Register Giveaway", "View Listings"])
 
