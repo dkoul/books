@@ -51,14 +51,16 @@ elif menu == "View Listings":
     
     for index, row in listings.iterrows():
         bg_color = "#ffcccc" if row['Status'] == "Claimed" else "#ccffcc"
-        st.markdown(f'<div style="background-color: {bg_color}; padding: 10px; border-radius: 5px; margin-bottom: 10px;">' +
-                    f'**Grade {row["Grade"]} bookset listed by {row["Name"]} - Status: {row["Status"]}**' +
-                    '</div>', unsafe_allow_html=True)
-        
-        if row['Status'] == "Unclaimed" and st.button(f"Claim Bookset {index}"):
-            claim_book(index)
-            whatsapp_link = f"https://wa.me/{row['Phone']}"
-            st.success(f"Congratulations! You have claimed the bookset. Contact {row['Name']} on [WhatsApp]({whatsapp_link})")
+        col1, col2 = st.columns([3, 1])
+        with col1:
+            st.markdown(f'<div style="background-color: {bg_color}; padding: 10px; border-radius: 5px;">' +
+                        f'**Grade {row["Grade"]} bookset listed by {row["Name"]} - Status: {row["Status"]}**' +
+                        '</div>', unsafe_allow_html=True)
+        with col2:
+            if row['Status'] == "Unclaimed" and st.button(f"Claim {index}"):
+                claim_book(index)
+                whatsapp_link = f"https://wa.me/{row['Phone']}"
+                st.success(f"Congratulations! You have claimed the bookset. Contact {row['Name']} on [WhatsApp]({whatsapp_link})")
 
 # Footer
 st.markdown("---")
